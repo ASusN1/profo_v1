@@ -16,12 +16,12 @@ let object;
 //Orbitcontrols allow the camera to move around the sceen
 let controls;
 //set which object to render 
-let objToRender = "v5.glb"; //Note: not sure if this is the correct  name, re check later to find the correct 1  *** repalce this with the roomthingy 
+let objToRender = "v7.glb"; //Note: not sure if this is the correct  name, re check later to find the correct 1  *** repalce this with the roomthingy 
 //Instaniate a loeader for the gltf file 
 const loader = new GLTFLoader(); 
 
 //Load the gltf file 
-loader.load('model/v5.glb', function(gltf){
+loader.load('model/v7.glb', function(gltf){
     //if the file load --> add to the scence
     object = gltf.scene; 
     scene.add(object);
@@ -46,15 +46,15 @@ document.getElementById("container").appendChild(renderer.domElement);
 camera.position.z = 4;
 
 //Add light to the sceence, so we can see the object
-const topLight = new THREE.DirectionalLight(0xffffff, 1); //(color, intensity)
+const topLight = new THREE.DirectionalLight(0xffffff, 0.1); //(color, intensity)
 topLight.position.set(500, 500, 500);   //position the light above the object ( top left ish) -- 500 is the distance from the object, adjust as needed
 topLight.castShadow = true; //allow the light to cast shadows
 scene.add(topLight); //add the light to the scence
 
-const ambientLight = new THREE.AmbientLight(0xf3fff3, objToRender === "v5.glb" ? 5 : 2); // softer light to fill in the shadows (color, intensity) #replace the anem of v5.glb 
+const ambientLight = new THREE.AmbientLight(0xf3fff3, objToRender === "v7.glb" ? 5 : 2); // softer light to fill in the shadows (color, intensity) #replace the anem of v7.glb 
 scene.add(ambientLight); //add the ambient light to the scence
 
-if (objToRender === "v5.glb"){
+if (objToRender === "v7.glb"){
     controls = new OrbitControls(camera, renderer.domElement); //allow the user to move the camera around the sceen
 }
 //Render the scence
