@@ -9,7 +9,7 @@ import {GLTFLoader} from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loa
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x222222); //add gray background so we can see if anything renders
 //Create a camera to view the scence
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth /window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth /window.innerHeight, 0.01, 1000);
 
 //keep the 3D object as global so access later 
 let object; 
@@ -37,21 +37,24 @@ loader.load('model/v7.glb', function(gltf){
     }
 );
 //Iniatet a new rendered and se its isze 
-const renderer = new THREE.WebGLRenderer({alpah :true}); //alpha for transparrent acgroudn 
+const renderer = new THREE.WebGLRenderer({alpah :true, antialias: true, tone: 'aces'}); //alpha for transparrent acgroudn 
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.2;
 //Add the rnder to the DOM
 document.getElementById("container").appendChild(renderer.domElement);
 
 //set distace of the camera from the scence
-camera.position.z = 4;
+camera.position.z = 6;
 
 //Add light to the sceence, so we can see the object
-const topLight = new THREE.DirectionalLight(0xffffff, 0.1); //(color, intensity)
-topLight.position.set(500, 500, 500);   //position the light above the object ( top left ish) -- 500 is the distance from the object, adjust as needed
+const topLight = new THREE.DirectionalLight(0xffffff, 1.2); //(color, intensity)
+topLight.position.set(10, 15, 10);   //position the light above the object ( top left ish) -- 500 is the distance from the object, adjust as needed
 topLight.castShadow = true; //allow the light to cast shadows
 scene.add(topLight); //add the light to the scence
 
-const ambientLight = new THREE.AmbientLight(0xf3fff3, objToRender === "v7.glb" ? 5 : 2); // softer light to fill in the shadows (color, intensity) #replace the anem of v7.glb 
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.6); // softer light to fill in the shadows (color, intensity)
 scene.add(ambientLight); //add the ambient light to the scence
 
 if (objToRender === "v7.glb"){
