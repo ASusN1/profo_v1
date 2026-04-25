@@ -9,12 +9,12 @@ export const objectInfo = {
     },
     'ExtractorV2_1': { 
         title: 'Extractor V2 (Version 1)', 
-        description: 'When ever you need to dowload video from youtube,insta,or tiktok. Choose Extractor V2 also known as GIMME VideoColorSpace. Written using pure pytthon, you will able to download audio , video, or both with seleceted quailtiy and format. Click to learn more about Extractor V2 - Version 1', 
+        description: 'When ever you need to dowload video from youtube,insta,or tiktok. Choose Extractor V2 also known as GIMME Video. Written using pure pytthon, you will able to download audio , video, or both with seleceted quailtiy and format. Click to learn more about Extractor V2 - Version 1', 
         link: 'https://github.com/ASusN1/ExtractorV2' 
     },
     'ExtractorV2_2': { 
         title: 'Extractor V2 (Version 2)', 
-        description: 'When ever you need to dowload video from youtube,insta,or tiktok. Choose Extractor V2 also known as GIMME VideoColorSpace. Written using pure pytthon, you will able to download audio , video, or both with seleceted quailtiy and format. Click to learn more about Extractor V2 - Version 2', 
+        description: 'When ever you need to dowload video from youtube,insta,or tiktok. Choose Extractor V2 also known as GIMME Video. Written using pure pytthon, you will able to download audio , video, or both with seleceted quailtiy and format. Click to learn more about Extractor V2 - Version 2', 
         link: 'https://github.com/ASusN1/ExtractorV2'
     },
     'sudoku_1': { 
