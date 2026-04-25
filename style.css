@@ -22,3 +22,114 @@ body {
     height: 100% !important;
     display: block;
 }
+
+#popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(30, 30, 30, 0.95);
+    border: 2px solid #4a9eff;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 400px;
+    z-index: 1000;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+    animation: popupFadeIn 0.3s ease-in-out;
+    backdrop-filter: blur(10px);
+    cursor: grab;
+}
+
+#popup.dragging {
+    animation: none;
+    cursor: grabbing;
+}
+
+#popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: grab;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(74, 158, 255, 0.3);
+}
+
+#popup-header:active {
+    cursor: grabbing;
+}
+
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+#popup-close {
+    float: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: #4a9eff;
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    line-height: 1;
+    margin-left: 10px;
+}
+
+#popup-close:hover {
+    color: #ff4a4a;
+}
+
+#popup-title {
+    color: #4a9eff;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    flex-grow: 1;
+}
+
+#popup-description {
+    color: #e0e0e0;
+    font-size: 14px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+#popup-link {
+    display: inline-block;
+    background: linear-gradient(135deg, #4a9eff, #3a7ed5);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+#popup-link:hover {
+    background: linear-gradient(135deg, #3a7ed5, #2a5ea5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 158, 255, 0.4);
+}
+
+/* Overlay behind popup */
+#popup::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
