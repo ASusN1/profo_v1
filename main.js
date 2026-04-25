@@ -9,7 +9,7 @@ import {objectInfo, validClickableNames} from './clickableObjects.js';
 
 //Create a 3 js screen 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x222222); //add gray background so we can see if anything renders
+scene.background = new THREE.Color(0xffffff); //white background
 //Create a camera to view the scence
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth /window.innerHeight, 0.01, 1000);
 
@@ -33,6 +33,32 @@ const clickableObjects = [];
 // Store original materials for hover effect
 const originalMaterials = new Map(); 
 
+// ===== AUDIO SETUP =====
+const backgroundAudio = new Audio('sound/sound_track_background.mp3');
+backgroundAudio.loop = true;
+backgroundAudio.volume = 0.5;
+
+// Try to autoplay
+const playPromise = backgroundAudio.play();
+if (playPromise !== undefined) {
+    playPromise.catch(error => {
+        console.log('Autoplay blocked. Will play on first user interaction.');
+        document.addEventListener('click', function playOnClick() {
+            backgroundAudio.play();
+            document.removeEventListener('click', playOnClick);
+        }, { once: true });
+    });
+}
+
+// ===== KEYBOARD EVENT - PRESS 'M' TO STOP AUDIO =====
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'm' || event.key === 'M') {
+        backgroundAudio.pause();
+        backgroundAudio.currentTime = 0;
+        console.log('Audio stopped (M pressed)');
+    }
+});
+
 //Load the gltf file 
 loader.load('model/v14b.glb', function(gltf){
     //if the file load --> add to the scence
@@ -51,21 +77,20 @@ loader.load('model/v14b.glb', function(gltf){
     
 //------------------------------------------------------------------------------
     // ===== SETUP CLICKABLE OBJECTS =====
-    // confuses, check the 3js + js docs things 
     object.traverse(function(child) {
         if (child.isMesh) {
             // Store original material with all properties
             const materialClone = child.material.clone();
             originalMaterials.set(child, materialClone);
-            
-            // Check if this mesh should be clickable
-            if (validClickableNames.has(child.name) && objectInfo[child.name]) {
-                clickableObjects.push({
-                    mesh: child,
-                    ...objectInfo[child.name]
-                });
-                console.log('Clickable object added:', child.name);
-            }
+        }
+        
+        // Check if this object should be clickable (mesh or non-mesh)
+        if (validClickableNames.has(child.name) && objectInfo[child.name]) {
+            clickableObjects.push({
+                mesh: child,
+                ...objectInfo[child.name]
+            });
+            console.log('Clickable object added:', child.name, '| Type:', child.type);
         }
     });
     console.log('Total clickable objects ready:', clickableObjects.length);
@@ -124,9 +149,11 @@ window.addEventListener('mousemove', function(event) {
     
     // Reset previous hover
     if (intersectedObject) {
-        const originalMat = originalMaterials.get(intersectedObject.mesh);
-        if (originalMat) {
-            intersectedObject.mesh.material = originalMat;
+        if (intersectedObject.mesh.isMesh) {
+            const originalMat = originalMaterials.get(intersectedObject.mesh);
+            if (originalMat) {
+                intersectedObject.mesh.material = originalMat;
+            }
         }
         document.body.style.cursor = 'default';
     }
@@ -136,12 +163,16 @@ window.addEventListener('mousemove', function(event) {
         intersectedObject = clickableObjects.find(obj => obj.mesh === intersects[0].object);
         if (intersectedObject) {
             console.log('Hovering over:', intersectedObject.title);
-            // Create highlight effect (emissive glow)
-            const originalMat = originalMaterials.get(intersectedObject.mesh);
-            const highlightMaterial = originalMat.clone();
-            highlightMaterial.emissive = new THREE.Color(0xffff00);
-            highlightMaterial.emissiveIntensity = 0.5;
-            intersectedObject.mesh.material = highlightMaterial;
+            // Create highlight effect (emissive glow) - only for meshes
+            if (intersectedObject.mesh.isMesh) {
+                const originalMat = originalMaterials.get(intersectedObject.mesh);
+                if (originalMat) {
+                    const highlightMaterial = originalMat.clone();
+                    highlightMaterial.emissive = new THREE.Color(0xffff00);
+                    highlightMaterial.emissiveIntensity = 0.5;
+                    intersectedObject.mesh.material = highlightMaterial;
+                }
+            }
             document.body.style.cursor = 'pointer';
         }
     } else {
@@ -245,7 +276,6 @@ window.addEventListener('resize', function(){
     //update the renderer size
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
-
 
 
 // USE ONLY V14B FOR NOW, V12 HAS A BUG WITH THE CAMERA AND ORBIT CONTROLS, REVERT TO V12 LATER IF NEEDED
