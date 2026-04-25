@@ -115,7 +115,12 @@ renderer.toneMappingExposure = 1.2;
 document.getElementById("container").appendChild(renderer.domElement);
 
 //set distace of the camera from the scence
-camera.position.z = 6;
+camera.position.x = -15;    // Left (-) / Right (+)
+camera.position.y = 10;    // Down (-) / Up (+)
+camera.position.z = 6;    // Distance from object
+
+// The starting camera rotation 
+camera.lookAt(0, 0, 0);  // 
 
 //Add light to the sceence, so we can see the object
 const topLight = new THREE.DirectionalLight(0xffffff, 1.2); //(color, intensity)
