@@ -37,14 +37,46 @@ const originalMaterials = new Map();
 const backgroundAudio = new Audio('sound/sound_track_background.mp3');
 backgroundAudio.loop = true;
 backgroundAudio.volume = 0.5;
+let isAudioPlaying = false;
+
+// Function to toggle music
+function toggleMusic() {
+    const musicIcon = document.getElementById('music-icon');
+    
+    if (isAudioPlaying) {
+        // Turn off music
+        backgroundAudio.pause();
+        musicIcon.src = 'icon/music_off.png';
+        isAudioPlaying = false;
+        console.log('Music stopped');
+    } else {
+        // Turn on music
+        backgroundAudio.play().catch(error => {
+            console.log('Could not play audio:', error);
+        });
+        musicIcon.src = 'icon/music_on.png';
+        isAudioPlaying = true;
+        console.log('Music playing');
+    }
+}
+
+// Music toggle button event listener
+document.getElementById('music-toggle').addEventListener('click', function() {
+    toggleMusic();
+});
 
 // Try to autoplay
 const playPromise = backgroundAudio.play();
 if (playPromise !== undefined) {
-    playPromise.catch(error => {
+    playPromise.then(() => {
+        isAudioPlaying = true;
+        console.log('Autoplay successful');
+    }).catch(error => {
         console.log('Autoplay blocked. Will play on first user interaction.');
         document.addEventListener('click', function playOnClick() {
             backgroundAudio.play();
+            isAudioPlaying = true;
+            document.getElementById('music-icon').src = 'icon/music_on.png';
             document.removeEventListener('click', playOnClick);
         }, { once: true });
     });
@@ -53,9 +85,7 @@ if (playPromise !== undefined) {
 // ===== KEYBOARD EVENT - PRESS 'M' TO STOP AUDIO =====
 document.addEventListener('keydown', function(event) {
     if (event.key === 'm' || event.key === 'M') {
-        backgroundAudio.pause();
-        backgroundAudio.currentTime = 0;
-        console.log('Audio stopped (M pressed)');
+        toggleMusic();
     }
 });
 
