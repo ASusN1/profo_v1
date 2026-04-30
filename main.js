@@ -18,7 +18,7 @@ let object;
 //Orbitcontrols allow the camera to move around the sceen
 let controls;
 //set which object to render 
-let objToRender = "v14b.glb"; //Note: not sure if this is the correct  name, re check later to find the correct 1  *** repalce this with the roomthingy 
+let objToRender = "v17.glb"; //Note: not sure if this is the correct  name, re check later to find the correct 1  *** repalce this with the roomthingy 
 //Instaniate a loeader for the gltf file 
 const loader = new GLTFLoader();
 
@@ -90,7 +90,7 @@ document.addEventListener('keydown', function(event) {
 });
 
 //Load the gltf file 
-loader.load('model/v14b.glb', function(gltf){
+loader.load('model/v17.glb', function(gltf){
     //if the file load --> add to the scence
     object = gltf.scene; 
     scene.add(object);
@@ -161,7 +161,7 @@ scene.add(topLight); //add the light to the scence
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.6); // softer light to fill in the shadows (color, intensity)
 scene.add(ambientLight); //add the ambient light to the scence
 
-if (objToRender === "v14b.glb"){
+if (objToRender === "v17.glb"){
     controls = new OrbitControls(camera, renderer.domElement); //allow the user to move the camera around the sceen
 }
 //Render the scence
@@ -237,6 +237,14 @@ function showPopup(objectData) {
     const popup = document.getElementById('popup');
     document.getElementById('popup-title').textContent = objectData.title;
     document.getElementById('popup-description').textContent = objectData.description;
+    //handle image stuff for pop up 
+    const popupImage = document.getElementById('popup-image');
+    if (objectData.image) {
+        popupImage.src = objectData.image;
+        popupImage.style.display = 'block';
+    } else {
+        popupImage.style.display = 'none';
+    }
     
     if (objectData.link) {
         document.getElementById('popup-link').href = objectData.link;
