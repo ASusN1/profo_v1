@@ -28,7 +28,7 @@ body {
     align-items: center;
     gap: 15px;
     padding: 15px 20px;
-    background: rgba(30, 30, 30, 0.9);
+    background: #F4C2C2;
     position: fixed;
     top: 0;
     left: 0;
@@ -49,7 +49,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: rgba(74, 158, 255, 0.2);
+    background: rgba(254, 220, 86, 0.2);
     transition: all 0.3s ease;
     cursor: pointer;
     text-decoration: none;
@@ -62,7 +62,7 @@ body {
 }
 
 .social-icon:hover {
-    background: rgba(74, 158, 255, 0.5);
+    background: rgba(254, 220, 86, 0.5);
     transform: scale(1.1);
 }
 
@@ -76,8 +76,8 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(30, 30, 30, 0.95);
-    border: 2px solid #4a9eff;
+    background: #F4C2C2;
+    border: 2px solid #FEDC56;
     border-radius: 12px;
     padding: 30px;
     max-width: 400px;
@@ -100,7 +100,7 @@ body {
     cursor: grab;
     margin-bottom: 15px;
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(74, 158, 255, 0.3);
+    border-bottom: 1px solid rgba(254, 220, 86, 0.5);
 }
 
 #popup-header:active {
@@ -122,7 +122,7 @@ body {
     float: none;
     font-size: 24px;
     font-weight: bold;
-    color: #4a9eff;
+    color: #FEDC56;
     cursor: pointer;
     border: none;
     background: none;
@@ -138,7 +138,7 @@ body {
 }
 
 #popup-title {
-    color: #4a9eff;
+    color: #FEDC56;
     font-size: 24px;
     font-weight: bold;
     margin: 0;
@@ -154,8 +154,8 @@ body {
 
 #popup-link {
     display: inline-block;
-    background: linear-gradient(135deg, #4a9eff, #3a7ed5);
-    color: white;
+    background: linear-gradient(135deg, #FEDC56, #FED041);
+    color: #333;
     padding: 10px 20px;
     border-radius: 6px;
     text-decoration: none;
@@ -164,9 +164,9 @@ body {
 }
 
 #popup-link:hover {
-    background: linear-gradient(135deg, #3a7ed5, #2a5ea5);
+    background: linear-gradient(135deg, #FED041, #FEC81F);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(74, 158, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(254, 220, 86, 0.6);
 }
 
 /* Overlay behind popup */
@@ -185,8 +185,8 @@ body {
     position: fixed;
     top: 20px;
     right: 20px;
-    background: rgba(30, 30, 30, 0.8);
-    border: 2px solid #4a9eff;
+    background: #F4C2C2;
+    border: 2px solid #FEDC56;
     border-radius: 50%;
     width: 60px;
     height: 60px;
@@ -200,8 +200,8 @@ body {
 }
 
 .music-btn:hover {
-    background: rgba(30, 30, 30, 0.95);
-    box-shadow: 0 0 15px rgba(74, 158, 255, 0.6);
+    background: #F4C2C2;
+    box-shadow: 0 0 15px rgba(254, 220, 86, 0.6);
     transform: scale(1.05);
 }
 
@@ -218,17 +218,17 @@ body {
     display: flex;
     gap: 15px;
     z-index: 998;
-    background: rgba(30, 30, 30, 0.9);
+    background: #F4C2C2;
     padding: 15px 20px;
     border-radius: 12px;
-    border: 2px solid #4a9eff;
+    border: 2px solid #FEDC56;
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
 .menu-item {
-    background: rgba(74, 158, 255, 0.1);
-    border: 2px solid #4a9eff;
+    background: rgba(254, 220, 86, 0.1);
+    border: 2px solid #FEDC56;
     border-radius: 8px;
     width: 60px;
     height: 60px;
@@ -242,9 +242,9 @@ body {
 }
 
 .menu-item:hover {
-    background: rgba(74, 158, 255, 0.3);
+    background: rgba(254, 220, 86, 0.3);
     transform: scale(1.1);
-    box-shadow: 0 0 20px rgba(74, 158, 255, 0.6);
+    box-shadow: 0 0 20px rgba(254, 220, 86, 0.6);
 }
 
 .menu-item:active {
