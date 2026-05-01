@@ -4,12 +4,26 @@ import * as THREE from 'https://cdn.skypack.dev/three@0.132.2/build/three.module
 import {OrbitControls} from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js';
 //To allow for importing the .gilf file
 import {GLTFLoader} from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader.js';
+//To load EXR environment textures
+import {EXRLoader} from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/EXRLoader.js';
 //Import clickable objects configuration
 import {objectInfo, validClickableNames} from './clickableObjects.js';
 
+
+
+
+
 //Create a 3 js screen 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xffffff); //white background
+
+// Load equirectangular environment texture from EXR
+const exrLoader = new EXRLoader();
+exrLoader.load('image/belfast_sunset_puresky_1k.exr', (texture) => {
+    texture.mapping = THREE.EquirectangularReflectionMapping;
+    scene.background = texture;
+    scene.environment = texture; // Improves object lighting
+});
+
 //Create a camera to view the scence
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth /window.innerHeight, 0.01, 1000);
 
@@ -311,6 +325,28 @@ window.addEventListener('click', function(event) {
     }
 });
 
+// ===== MENU BUTTON EVENT LISTENERS =====
+// Map menu data-game values to objectInfo keys
+const menuMapping = {
+    'extractorv2': 'ExtractorV2_1',
+    'fatseal': 'fat_seal',
+    'sudoku': 'sudoku_1'
+};
+
+// Add click listeners to all menu items
+document.querySelectorAll('.menu-item').forEach(button => {
+    button.addEventListener('click', function(event) {
+        event.stopPropagation(); // Prevent 3D click detection
+        const gameType = this.getAttribute('data-game');
+        const objectKey = menuMapping[gameType];
+        
+        if (objectKey && objectInfo[objectKey]) {
+            console.log('Menu clicked:', gameType, '-> showing', objectKey);
+            showPopup(objectInfo[objectKey]);
+        }
+    });
+});
+
 //add a event lister to window to resize the window and the camera 
 window.addEventListener('resize', function(){
     //update the camera aspect ratio and projection matrix
@@ -320,6 +356,17 @@ window.addEventListener('resize', function(){
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
+// ===== SOCIAL MEDIA ICON LINKS =====
+// Set up social media icon click handlers to use links from objectInfo
+document.querySelectorAll('.social-icon').forEach(link => {
+    link.addEventListener('click', function(event) {
+        event.preventDefault();
+        const socialId = this.getAttribute('data-social');
+        if (objectInfo[socialId] && objectInfo[socialId].link) {
+            window.open(objectInfo[socialId].link, '_blank');
+        }
+    });
+});
 
 // USE ONLY V14B FOR NOW, V12 HAS A BUG WITH THE CAMERA AND ORBIT CONTROLS, REVERT TO V12 LATER IF NEEDED
 animate();

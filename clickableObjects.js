@@ -5,7 +5,7 @@ export const objectInfo = {
     'github_icon': { 
         title: 'GitHub Profile', 
         description: 'Check out my open-source projects where I experiment with new technologies and contribute to the developer community. From Python utilities to Three.js experiments, there\'s something for everyone.', 
-        link: 'https://github.com' 
+        link: 'https://github.com/ASusN1' 
     },
     'instagram_icon': { 
         title: 'Instagram', 
@@ -14,7 +14,7 @@ export const objectInfo = {
     },
     'discord_icon': { 
         title: 'Discord Community', 
-        description: 'Add me on Discord! My username is Banh Mi#4218 - feel free to send a friend request. Let\'s chat about Godot, Three.js, 3D modeling, or anything tech-related!', 
+        description: 'Add me on Discord! My username is banhmi4218 - feel free to send a friend request. Let\'s chat about Godot, Three.js, 3D modeling, or anything tech-related!', 
         link: 'https://discord.com/users' 
     },
     'ExtractorV2_1': { 
