@@ -36,6 +36,12 @@ let objToRender = "v17.glb"; //Note: not sure if this is the correct  name, re c
 //Instaniate a loeader for the gltf file 
 const loader = new GLTFLoader();
 
+// ===== ANIMATION SETUP =====
+let mixer;
+let actions = {};
+let currentAction = null;
+const clock = new THREE.Clock();
+
 // ===== RAYCASTING SETUP FOR CLICK & HOVER =====
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
@@ -110,6 +116,35 @@ loader.load('model/v17.glb', function(gltf){
     scene.add(object);
     console.log('Model loaded successfully!');
     
+    // ===== SETUP ANIMATIONS =====
+    mixer = new THREE.AnimationMixer(object);
+    const animations = gltf.animations;
+    console.log('Available animations:', animations.map(a => a.name));
+    
+    // Create action objects for available animations
+    animations.forEach((clip) => {
+        const action = mixer.clipAction(clip);
+        actions[clip.name] = action;
+        
+        // Set Wave to loop
+        if (clip.name === 'Wave') {
+            action.loop = THREE.LoopRepeat;
+            action.clampWhenFinished = false;
+        }
+    });
+    
+    // Play Wave animation by default
+    if (actions['Wave']) {
+        actions['Wave'].play();
+        currentAction = actions['Wave'];
+        console.log('Playing Wave animation (looping)');
+    } else if (animations.length > 0) {
+        const firstAnimation = animations[0].name;
+        actions[firstAnimation].play();
+        currentAction = actions[firstAnimation];
+        console.log('Wave animation not found, playing:', firstAnimation);
+    }
+    
     // Debug: Log all mesh names in the model
     console.log('=== All meshes in model ===');
     object.traverse(function(child) {
@@ -181,6 +216,12 @@ if (objToRender === "v17.glb"){
 //Render the scence
 function animate(){
     requestAnimationFrame(animate); //call animate again on the next frame
+    
+    // Update animation mixer
+    if (mixer) {
+        mixer.update(clock.getDelta());
+    }
+    
     renderer.render(scene, camera); //render the scene
 }
 //------------------------------------------------------------------------------
